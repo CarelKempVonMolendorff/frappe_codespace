@@ -1,8 +1,12 @@
 {
     "name": "Frappe Bench",
     "dockerFile": "Dockerfile",
-    "settings": {
-      "terminal.integrated.shell.linux": "/bin/bash"
+    "customizations": {
+      "vscode": {
+        "settings": {
+          "terminal.integrated.shell.linux": "/bin/bash"
+        }
+      }
     },
     "postCreateCommand": "bash setup.sh",
     "remoteUser": "vscode"
