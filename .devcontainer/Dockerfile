@@ -8,21 +8,34 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     git \
     curl \
-    libmysqlclient-dev \
-    redis-server \
-    npm \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    npm && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install specific dependencies separately
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    libmysqlclient-dev && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    redis-server && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Install Node.js and Yarn
 RUN npm install -g yarn
 
 # Install wkhtmltopdf
-RUN apt-get install -y xfonts-75dpi xfonts-100dpi fontconfig \
-    && curl -LO https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.bionic_amd64.deb \
-    && dpkg -i wkhtmltox_0.12.6-1.bionic_amd64.deb \
-    && apt-get -f install -y \
-    && rm wkhtmltox_0.12.6-1.bionic_amd64.deb
+RUN apt-get update && \
+    apt-get install -y xfonts-75dpi xfonts-100dpi fontconfig && \
+    curl -LO https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.bionic_amd64.deb && \
+    dpkg -i wkhtmltox_0.12.6-1.bionic_amd64.deb && \
+    apt-get -f install -y && \
+    rm wkhtmltox_0.12.6-1.bionic_amd64.deb && \
+    rm -rf /var/lib/apt/lists/*
 
 # Create a new user
 RUN useradd -ms /bin/bash vscode
